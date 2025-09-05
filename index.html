@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Shimul555 StudioXD</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* Custom Fonts */
+    * {
+      font-family: 'Fira Code', monospace;
+    }
+    
+    /* Enhanced Background Animation */
+    body {
+      background: linear-gradient(-45deg, #0a0a0a, #1a1a1a, #0e7490, #6b21a8, #065f46);
+      background-size: 400% 400%;
+      animation: gradientMove 15s ease infinite;
+      overflow-x: hidden;
+      position: relative;
+    }
+    
+    /* Animated Particles Background */
+    .particles-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      overflow: hidden;
+    }
+    
+    .particle {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.1);
+      animation: float 15s infinite linear;
+    }
+    
+    @keyframes float {
+      0% {
+        transform: translateY(0) translateX(0) rotate(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-1000px) translateX(500px) rotate(720deg);
+        opacity: 0;
+      }
+    }
+    
+    @keyframes gradientMove {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* Glassmorphism Effect */
+    .glass {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    /* Code Editor Style Box */
+    .code-box {
+      background: rgba(30, 30, 30, 0.8);
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+      padding: 1rem;
+      font-family: "Fira Code", monospace;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    /* Enhanced Typing effect */
+    .typing {
+      overflow: hidden;
+      white-space: nowrap;
+      border-right: 3px solid #00ffea;
+      width: 0;
+      animation: typing 4s steps(30, end) forwards, blink 0.8s infinite;
+    }
+    @keyframes typing {
+      from { width: 0; }
+      to { width: 100%; }
+    }
+    @keyframes blink {
+      50% { border-color: transparent; }
+    }
+    
+    /* Floating animation */
+    .floating {
+      animation: floating 3s ease-in-out infinite;
+    }
+    @keyframes floating {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+      100% { transform: translateY(0px); }
+    }
+    
+    /* Hover effects */
+    .hover-lift {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .hover-lift:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+    }
+    
+    /* Blur effect for loading */
+    .blur-load {
+      filter: blur(10px);
+      transition: filter 0.5s ease;
+    }
+    
+    /* Smooth scrolling */
+    html {
+      scroll-behavior: smooth;
+    }
+    
+    /* Mobile menu */
+    .mobile-menu {
+      transform: translateX(-100%);
+      transition: transform 0.3s ease;
+    }
+    .mobile-menu.active {
+      transform: translateX(0);
+    }
+    
+    /* Pulse animation */
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+    .pulse {
+      animation: pulse 2s infinite;
+    }
+    
+    /* Glow effect */
+    .glow {
+      box-shadow: 0 0 15px rgba(59, 130, 246, 0.5);
+    }
+    
+    /* Gradient text */
+    .gradient-text {
+      background: linear-gradient(90deg, #00ffea, #9333ea);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    /* FAQ Dropdown Styles */
+    .faq-item {
+      margin-bottom: 1rem;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    
+    .faq-question {
+      background: rgba(30, 30, 30, 0.7);
+      padding: 1rem;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: background 0.3s ease;
+    }
+    
+    .faq-question:hover {
+      background: rgba(40, 40, 40, 0.8);
+    }
+    
+    .faq-answer {
+      background: rgba(20, 20, 20, 0.6);
+      padding: 0;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease, padding 0.3s ease;
+    }
+    
+    .faq-answer.active {
+      padding: 1rem;
+      max-height: 300px;
+    }
+    
+    .faq-icon {
+      transition: transform 0.3s ease;
+    }
+    
+    .faq-icon.rotate {
+      transform: rotate(180deg);
+    }
+    
+    /* Mobile responsive improvements */
+    .mobile-container {
+      padding-left: 1rem;
+      padding-right: 1rem;
+      margin-left: auto;
+      margin-right: auto;
+      width: 100%;
+      max-width: 100%;
+    }
+    
+    /* Improved mobile margins and spacing */
+    @media (max-width: 768px) {
+      .mobile-stack {
+        flex-direction: column;
+      }
+      .mobile-text-center {
+        text-align: center;
+      }
+      
+      /* Enhanced margins for mobile */
+      .mobile-margin {
+        margin-top: 1.5rem;
+        margin-bottom: 1.5rem;
+      }
+      
+      /* Enhanced padding for mobile */
+      .mobile-padding {
+        padding-left: 1.2rem;
+        padding-right: 1.2rem;
+      }
+      
+      /* Section spacing for mobile */
+      .mobile-section {
+        margin-top: 2.5rem;
+        margin-bottom: 2.5rem;
+      }
+      
+      .mobile-feature-item {
+        padding: 0.9rem;
+        margin-bottom: 0.7rem;
+      }
+      
+      /* Improved font sizes for mobile */
+      h1 {
+        font-size: 2rem;
+      }
+      
+      h2 {
+        font-size: 1.8rem;
+      }
+      
+      h3 {
+        font-size: 1.5rem;
+      }
+      
+      p, li {
+        font-size: 0.95rem;
+        line-height: 1.6;
+      }
+      
+      /* Better spacing for CTA buttons */
+      .cta-buttons {
+        gap: 1rem;
+      }
+      
+      /* Improved logo size */
+      .logo-img {
+        width: 5rem;
+        height: 5rem;
+      }
+      
+      /* Better spacing for navigation */
+      nav {
+        padding: 0.8rem 1rem;
+      }
+      
+      /* Improved code box spacing */
+      .code-box {
+        padding: 1.2rem;
+      }
+      
+      /* Better FAQ spacing */
+      .faq-question, .faq-answer.active {
+        padding: 1.2rem;
+      }
+      
+      /* Improved stats grid spacing */
+      .stats-grid {
+        gap: 1rem;
+      }
+      
+      /* Better contact icon spacing */
+      .contact-icons {
+        gap: 1.5rem;
+      }
+      
+      /* Footer spacing */
+      footer {
+        padding-top: 3rem;
+        padding-bottom: 2rem;
+      }
+    }
+    
+    /* Additional improvements for very small devices */
+    @media (max-width: 380px) {
+      .mobile-padding {
+        padding-left: 1rem;
+        padding-right: 1rem;
+      }
+      
+      h1 {
+        font-size: 1.8rem;
+      }
+      
+      h2 {
+        font-size: 1.6rem;
+      }
+      
+      .logo-img {
+        width: 4rem;
+        height: 4rem;
+      }
+    }
+  </style>
+</head>
+<body class="text-white min-h-screen flex items-center justify-center">
+  <!-- Animated Particles Background -->
+  <div class="particles-container" id="particles"></div>
+  
+  <div class="mobile-container py-16 px-4">
+    
+    <!-- Navigation -->
+    <nav class="glass fixed top-0 left-0 w-full bg-opacity-70 backdrop-blur-md z-50 py-3 px-4">
+      <div class="flex justify-between items-center">
+        <div class="flex items-center">
+          <img class="w-10 h-10 rounded-xl glow" 
+               src="https://raw.githubusercontent.com/Shimul555Mod/Shimul-StudioXD/refs/heads/main/Image/shimul_studioxd_icon.png" 
+               alt="Logo">
+          <span class="ml-2 font-bold text-lg gradient-text">StudioXD</span>
+        </div>
+        
+        <!-- Desktop Menu -->
+        <div class="hidden md:flex space-x-6">
+          <a href="#home" class="hover:text-cyan-400 transition">Home</a>
+          <a href="#features" class="hover:text-cyan-400 transition">Features</a>
+          <a href="#about" class="hover:text-cyan-400 transition">About</a>
+          <a href="#faq" class="hover:text-cyan-400 transition">FAQ</a>
+          <a href="#contact" class="hover:text-cyan-400 transition">Contact</a>
+        </div>
+        
+        <!-- Mobile Menu Button -->
+        <button id="menu-btn" class="md:hidden text-2xl">
+          <i class="fas fa-bars"></i>
+        </button>
+      </div>
+    </nav>
+    
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="mobile-menu fixed top-0 left-0 h-full w-64 bg-gray-900 bg-opacity-95 backdrop-blur-md z-50 p-6 md:hidden">
+      <div class="flex justify-between items-center mb-10">
+        <img class="w-10 h-10 rounded-xl glow" 
+             src="https://raw.githubusercontent.com/Shimul555Mod/Shimul-StudioXD/refs/heads/main/Image/shimul_studioxd_icon.png" 
+             alt="Logo">
+        <button id="close-menu" class="text-2xl">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div class="space-y-6">
+        <a href="#home" class="block py-2 hover:text-cyan-400 transition">Home</a>
+        <a href="#features" class="block py-2 hover:text-cyan-400 transition">Features</a>
+        <a href="#about" class="block py-2 hover:text-cyan-400 transition">About</a>
+        <a href="#faq" class="block py-2 hover:text-cyan-400 transition">FAQ</a>
+        <a href="#contact" class="block py-2 hover:text-cyan-400 transition">Contact</a>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div id="home" class="text-center space-y-6 mobile-padding mt-16">
+      
+      <!-- Logo with blur loading effect -->
+      <div class="flex justify-center mobile-margin">
+        <img class="w-24 h-24 rounded-2xl shadow-lg floating blur-load hover-lift logo-img"
+             src="https://raw.githubusercontent.com/Shimul555Mod/Shimul-StudioXD/refs/heads/main/Image/shimul_studioxd_icon.png" 
+             alt="Shimul555 StudioXD"
+             onload="this.classList.remove('blur-load')">
+      </div>
+
+      <!-- Welcome Text -->
+      <h1 class="text-3xl font-extrabold mobile-margin">
+        👨‍💻 <span class="gradient-text">Welcome to</span>
+      </h1>
+      <h2 class="text-4xl font-bold mobile-margin">
+        <span class="typing gradient-text">Shimul555 StudioXD</span>
+      </h2>
+
+      <!-- Info Text -->
+      <p class="text-gray-300 text-base leading-relaxed mobile-text-center mobile-margin">
+        A powerful <span class="text-cyan-400 font-semibold">Web Code Editor</span>  
+        inspired by <span class="text-purple-400 font-semibold">Visual Studio Code</span>.  
+        🚀 Write, edit, preview and manage your projects — all in one place!
+      </p>
+
+      <!-- Features Code Style Box -->
+      <div id="features" class="code-box text-left mt-4 mobile-padding hover-lift">
+        <p class="mobile-feature-item"><span class="text-green-400">✔</span> Syntax Highlighting</p>
+        <p class="mobile-feature-item"><span class="text-green-400">✔</span> Multiple Languages Support</p>
+        <p class="mobile-feature-item"><span class="text-green-400">✔</span> Live Preview Window</p>
+        <p class="mobile-feature-item"><span class="text-green-400">✔</span> File Explorer & Tabs</p>
+        <p class="mobile-feature-item"><span class="text-green-400">✔</span> Dark & Light Themes</p>
+        <p class="mobile-feature-item"><span class="text-green-400">✔</span> IntelliSense Code Completion</p>
+        <p class="mobile-feature-item"><span class="text-green-400">✔</span> Git Integration</p>
+      </div>
+
+      <!-- CTA Buttons -->
+      <div class="flex mobile-stack justify-center gap-4 mt-6 mobile-margin cta-buttons">
+        <a href="#editor" 
+           class="px-5 py-2.5 bg-cyan-500 hover:bg-cyan-600 rounded-xl shadow-lg font-semibold transition pulse text-sm hover-lift">
+          🚀 Start Coding
+        </a>
+        <a href="#about" 
+           class="px-5 py-2.5 bg-purple-600 hover:bg-purple-700 rounded-xl shadow-lg font-semibold transition text-sm hover-lift">
+          ℹ Learn More
+        </a>
+      </div>
+      
+      <!-- About Section -->
+      <div id="about" class="glass pt-10 p-6 rounded-2xl text-left mobile-section mobile-padding hover-lift">
+        <h3 class="text-2xl font-bold mb-3 gradient-text mobile-text-center">About StudioXD</h3>
+        <p class="text-gray-300 mb-3 text-sm">
+          Shimul555 StudioXD is a modern, browser-based code editor that brings the power of desktop IDEs to the web. 
+          It's designed to help developers code from anywhere without sacrificing functionality.
+        </p>
+        <p class="text-gray-300 text-sm">
+          Built with HTML5, CSS3, and JavaScript, it offers a seamless coding experience with features like syntax highlighting, 
+          file management, and live preview that make web development faster and more efficient.
+        </p>
+        <div class="mt-4 flex items-center">
+          <div class="w-10 h-10 rounded-full overflow-hidden mr-3">
+            <img src="https://avatars.githubusercontent.com/u/123456789?v=4" alt="Developer">
+          </div>
+          <div>
+            <p class="text-sm font-semibold">Shimul Islam</p>
+            <p class="text-xs text-gray-400">Full Stack Developer</p>
+          </div>
+        </div>
+      </div>
+      
+      <!-- FAQ Section -->
+      <div id="faq" class="glass pt-10 p-6 rounded-2xl mobile-section mobile-padding hover-lift">
+        <h3 class="text-2xl font-bold mb-6 gradient-text mobile-text-center">Frequently Asked Questions</h3>
+        
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFaq(0)">
+            <span>How to clear code in StudioXD?</span>
+            <i class="fas fa-chevron-down faq-icon"></i>
+          </div>
+          <div class="faq-answer">
+            <p>To clear all code in StudioXD, go to the <span class="text-cyan-400">File</span> menu and select <span class="text-cyan-400">Clear All Code</span>. Alternatively, you can use the keyboard shortcut <span class="bg-gray-700 px-2 py-1 rounded">Ctrl+Shift+K</span> (Windows/Linux) or <span class="bg-gray-700 px-2 py-1 rounded">Cmd+Shift+K</span> (Mac).</p>
+          </div>
+        </div>
+        
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFaq(1)">
+            <span>How to save my project?</span>
+            <i class="fas fa-chevron-down faq-icon"></i>
+          </div>
+          <div class="faq-answer">
+            <p>You can save your project by going to <span class="text-cyan-400">File > Save</span> or using the keyboard shortcut <span class="bg-gray-700 px-2 py-1 rounded">Ctrl+S</span>. StudioXD also supports auto-save feature which you can enable in settings.</p>
+          </div>
+        </div>
+        
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFaq(2)">
+            <span>Does StudioXD support Git version control?</span>
+            <i class="fas fa-chevron-down faq-icon"></i>
+          </div>
+          <div class="faq-answer">
+            <p>Yes, StudioXD has built-in Git integration. You can initialize a repository, make commits, push to remote repositories, and view your commit history directly from the editor.</p>
+          </div>
+        </div>
+        
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFaq(3)">
+            <span>Can I use custom themes in StudioXD?</span>
+            <i class="fas fa-chevron-down faq-icon"></i>
+          </div>
+          <div class="faq-answer">
+            <p>Absolutely! StudioXD supports custom themes. You can create your own theme or install themes created by others through the extensions marketplace.</p>
+          </div>
+        </div>
+        
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFaq(4)">
+            <span>Is StudioXD completely free to use?</span>
+            <i class="fas fa-chevron-down faq-icon"></i>
+          </div>
+          <div class="faq-answer">
+            <p>Yes, StudioXD is 100% free and open-source. You can use it for personal and commercial projects without any cost.</p>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Stats Section -->
+      <div class="grid grid-cols-2 gap-4 mt-6 mobile-padding stats-grid">
+        <div class="glass p-4 rounded-xl text-center hover-lift">
+          <div class="text-xl font-bold text-cyan-400">10+</div>
+          <div class="text-xs">Languages</div>
+        </div>
+        <div class="glass p-4 rounded-xl text-center hover-lift">
+          <div class="text-xl font-bold text-purple-400">5+</div>
+          <div class="text-xs">Themes</div>
+        </div>
+        <div class="glass p-4 rounded-xl text-center hover-lift">
+          <div class="text-xl font-bold text-green-400">100%</div>
+          <div class="text-xs">Free</div>
+        </div>
+        <div class="glass p-4 rounded-xl text-center hover-lift">
+          <div class="text-xl font-bold text-yellow-400">24/7</div>
+          <div class="text-xs">Access</div>
+        </div>
+      </div>
+      
+      <!-- Contact Section -->
+      <div id="contact" class="glass pt-10 p-6 rounded-2xl mobile-section mobile-padding hover-lift">
+        <h3 class="text-2xl font-bold mb-3 gradient-text mobile-text-center">Get In Touch</h3>
+        <p class="text-gray-300 mb-4 text-sm mobile-text-center">
+          Have questions or suggestions? We'd love to hear from you.
+        </p>
+        <div class="flex justify-center space-x-5 contact-icons">
+          <a href="https://github.com/Shimul555Mod" class="text-xl hover:text-cyan-400 transition hover-lift"><i class="fab fa-github"></i></a>
+          <a href="#" class="text-xl hover:text-cyan-400 transition hover-lift"><i class="fab fa-twitter"></i></a>
+          <a href="#" class="text-xl hover:text-cyan-400 transition hover-lift"><i class="fab fa-discord"></i></a>
+          <a href="mailto:shimul555.mod@gmail.com" class="text-xl hover:text-cyan-400 transition hover-lift"><i class="fas fa-envelope"></i></a>
+          <a href="https://www.facebook.com/shimul555modbd" class="text-xl hover:text-cyan-400 transition hover-lift"><i class="fab fa-facebook"></i></a>
+        </div>
+        <div class="mt-6 text-center">
+          <p class="text-sm text-gray-300">Email: <a href="mailto:shimul555.mod@gmail.com" class="text-cyan-400">shimul555.mod@gmail.com</a></p>
+          <p class="text-sm text-gray-300 mt-2">Facebook: <a href="https://www.facebook.com/shimul555modbd" class="text-cyan-400">Shimul Islam</a></p>
+        </div>
+      </div>
+      
+      <!-- Footer -->
+      <footer class="pt-10 pb-6 text-gray-400 text-xs mobile-text-center">
+        <p>© 2023 Shimul555 StudioXD. All rights reserved.</p>
+        <p class="mt-2">Made with ❤️ for developers around the world</p>
+      </footer>
+    </div>
+  </div>
+
+  <script>
+    // Mobile menu functionality
+    const menuBtn = document.getElementById('menu-btn');
+    const closeMenu = document.getElementById('close-menu');
+    const mobileMenu = document.getElementById('mobile-menu');
+    
+    menuBtn.addEventListener('click', () => {
+      mobileMenu.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    });
+    
+    closeMenu.addEventListener('click', () => {
+      mobileMenu.classList.remove('active');
+      document.body.style.overflow = 'auto';
+    });
+    
+    // Close menu when clicking on links
+    const menuLinks = document.querySelectorAll('#mobile-menu a');
+    menuLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        mobileMenu.classList.remove('active');
+        document.body.style.overflow = 'auto';
+      });
+    });
+    
+    // Image loading with blur effect
+    document.addEventListener('DOMContentLoaded', function() {
+      const images = document.querySelectorAll('img');
+      
+      images.forEach(img => {
+        // If image is already loaded, remove blur class
+        if (img.complete) {
+          img.classList.remove('blur-load');
+        } else {
+          img.addEventListener('load', () => {
+            img.classList.remove('blur-load');
+          });
+        }
+      });
+      
+      // Create animated particles
+      createParticles();
+    });
+    
+    // Animated particles background
+    function createParticles() {
+      const container = document.getElementById('particles');
+      const particleCount = 50;
+      
+      for (let i = 0; i < particleCount; i++) {
+        const particle = document.createElement('div');
+        particle.classList.add('particle');
+        
+        const size = Math.random() * 20 + 5;
+        const posX = Math.random() * 100;
+        const posY = Math.random() * 100;
+        const delay = Math.random() * 15;
+        const duration = Math.random() * 10 + 15;
+        
+        particle.style.width = `${size}px`;
+        particle.style.height = `${size}px`;
+        particle.style.left = `${posX}vw`;
+        particle.style.top = `${posY}vh`;
+        particle.style.animationDelay = `${delay}s`;
+        particle.style.animationDuration = `${duration}s`;
+        
+        container.appendChild(particle);
+      }
+    }
+    
+    // Add scroll animation
+    window.addEventListener('scroll', () => {
+      const elements = document.querySelectorAll('.glass, .code-box, .hover-lift');
+      
+      elements.forEach(element => {
+        const position = element.getBoundingClientRect().top;
+        const screenPosition = window.innerHeight / 1.3;
+        
+        if (position < screenPosition) {
+          element.style.opacity = 1;
+          element.style.transform = 'translateY(0)';
+        }
+      });
+    });
+    
+    // FAQ toggle functionality
+    function toggleFaq(index) {
+      const answers = document.querySelectorAll('.faq-answer');
+      const icons = document.querySelectorAll('.faq-icon');
+      
+      // Close all other FAQs
+      answers.forEach((answer, i) => {
+        if (i !== index) {
+          answer.classList.remove('active');
+          icons[i].classList.remove('rotate');
+        }
+      });
+      
+      // Toggle current FAQ
+      answers[index].classList.toggle('active');
+      icons[index].classList.toggle('rotate');
+    }
+  </script>
+</body>
+</html>
